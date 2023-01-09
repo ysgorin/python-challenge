@@ -10,6 +10,7 @@ import os
 import csv
 
 total_months = 0
+months = []
 net_profit_losses = 0
 previous_amount = 0 
 changes = []
@@ -29,18 +30,55 @@ with open(resource_path, 'r', encoding='utf') as file:
 
     for row in csvreader:
         total_months = total_months +1
+        months.append(row[0])
         net_profit_losses = net_profit_losses + int(row[1])
         change = int(row[1]) - previous_amount
         changes.append(change)
         previous_amount = int(row[1])
 
 # remove first change from changes because it is the first value.
+# remove first month for same reason
 changes.pop(0)
+months.pop(0)
 average_change = round((sum(changes)/len(changes)),2)
+greatest_increase = max(changes)
+greatest_decrease = min(changes)
 
-print(total_months)
-print(net_profit_losses)
-print(average_change)
+changes_and_months = zip(months, changes)
+
+for row in changes_and_months:
+    if row[1] == greatest_increase:
+        g_increase_month = row[0]
+    elif row[1] == greatest_decrease:
+        g_decrease_month = row[0]
+
+# print(total_months)
+# print(net_profit_losses)
+# print(average_change)
+# print(f"{g_increase_month} - {greatest_increase}")
+# print(f"{g_decrease_month} - {greatest_decrease}")
+
+print(f"""
+
+Financial Analysis
+----------------------------
+Total Months: {total_months}
+Total: ${net_profit_losses}
+Average Change: ${average_change}
+Greatest Increase in Profits: {g_increase_month} (${greatest_increase})
+Greatest Decrease in Profits: {g_decrease_month} (${greatest_decrease})
+
+""")
+
+output_path = os.path.join("analysis", "analysis.txt")
+with open(output_path, 'w') as a:
+    print(f"""Financial Analysis
+----------------------------
+Total Months: {total_months}
+Total: ${net_profit_losses}
+Average Change: ${average_change}
+Greatest Increase in Profits: {g_increase_month} (${greatest_increase})
+Greatest Decrease in Profits: {g_decrease_month} (${greatest_decrease})""", file=a)
 
 # The total number of months included in the dataset
 
