@@ -1,11 +1,30 @@
-# In this Challenge, you are tasked with helping a small,
-# rural town modernize its vote-counting process.
+# PyPoll Challenge
 
-# You will be given a set of poll data called election_data.csv.
+import os
+import csv
+
+ttl_votes = 0
+candidates = []
+
+# File path of election data
+resource_path = os.path.join("Resources", "election_data.csv")
+
+# File path to export analysis
+output_path = os.path.join("analysis", "analysis.txt")
+
+with open(resource_path, 'r', encoding='utf') as data:
+    csvreader = csv.reader(data, delimiter=',')
+    csv_header = next(csvreader)
+
+    for row in csvreader:
+        ttl_votes = ttl_votes + 1
+        if row[2] not in candidates:
+            candidates.append(row[2])
+
+print(ttl_votes)
+print(candidates)
+
 # The dataset is composed of three columns: "Voter ID", "County", and "Candidate".
-# Your task is to create a Python script that
-# analyzes the votes and calculates each of the following values:
-
 # The total number of votes cast
 
 # A complete list of candidates who received votes
