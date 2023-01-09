@@ -27,6 +27,8 @@ output_path = os.path.join("analysis", "analysis.txt")
 # Analyze financial dataset
 with open(resource_path, 'r', encoding='utf') as file:
    csvreader = csv.reader(file, delimiter=",")
+   
+   # Store the header row
    csv_header = next(csvreader)
 
    for row in csvreader:
