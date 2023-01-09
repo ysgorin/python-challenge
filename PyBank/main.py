@@ -11,6 +11,8 @@ import csv
 
 total_months = 0
 net_profit_losses = 0
+previous_amount = 0 
+changes = []
 
 resource_path = os.path.join("Resources", "budget_data.csv")
 
@@ -28,11 +30,17 @@ with open(resource_path, 'r', encoding='utf') as file:
     for row in csvreader:
         total_months = total_months +1
         net_profit_losses = net_profit_losses + int(row[1])
-        
+        change = int(row[1]) - previous_amount
+        changes.append(change)
+        previous_amount = int(row[1])
+
+# remove first change from changes because it is the first value.
+changes.pop(0)
+average_change = round((sum(changes)/len(changes)),2)
+
 print(total_months)
 print(net_profit_losses)
-
-
+print(average_change)
 
 # The total number of months included in the dataset
 
