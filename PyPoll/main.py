@@ -4,7 +4,7 @@ import os
 import csv
 
 ttl_votes = 0
-candidates = []
+dict_candidates = {}
 
 # File path of election data
 resource_path = os.path.join("Resources", "election_data.csv")
@@ -18,34 +18,28 @@ with open(resource_path, 'r', encoding='utf') as data:
 
     for row in csvreader:
         ttl_votes = ttl_votes + 1
-        if row[2] not in candidates:
-            candidates.append(row[2])
+        if row[2] not in dict_candidates:
+            dict_candidates[row[2]] = 0
+        dict_candidates[row[2]] = dict_candidates[row[2]] +1
 
-print(ttl_votes)
-print(candidates)
+print(f"""
+Election Results
+-------------------------
+Total Votes: {ttl_votes}
+-------------------------""")
+for k, v in dict_candidates.items():
+    print(f"{k}: {round(((v/ttl_votes)*100),3)}% ({v})")
+print(f"""-------------------------
+Winner: {max(dict_candidates, key=dict_candidates.get)}
+-------------------------""")
 
-# The dataset is composed of three columns: "Voter ID", "County", and "Candidate".
-# The total number of votes cast
-
-# A complete list of candidates who received votes
-
-# The percentage of votes each candidate won
-
-# The total number of votes each candidate won
-
-# The winner of the election based on popular vote
-
-# Your analysis should align with the following results:
-
-# Election Results
-# -------------------------
-# Total Votes: 369711
-# -------------------------
-# Charles Casper Stockham: 23.049% (85213)
-# Diana DeGette: 73.812% (272892)
-# Raymon Anthony Doane: 3.139% (11606)
-# -------------------------
-# Winner: Diana DeGette
-# -------------------------
-# In addition, your final script should both
-# print the analysis to the terminal and export a text file with the results.
+with open(output_path, 'a') as a:
+    print(f"""Election Results
+-------------------------
+Total Votes: {ttl_votes}
+-------------------------""", file=a)
+    for k, v in dict_candidates.items():
+        print(f"{k}: {round(((v/ttl_votes)*100),3)}% ({v})", file=a)
+    print(f"""-------------------------
+Winner: {max(dict_candidates, key=dict_candidates.get)}
+-------------------------""", file=a)
