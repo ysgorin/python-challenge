@@ -5,22 +5,17 @@ import csv
 
 # Total Number of Months
 ttl_mos = 0
-
 # List of Months
 mos = []
-
 # Net Total of Profits/Losses
 pnl_ttl = 0
-
 # Previous Month's Profit/Loss
 prev_amt = 0 
-
 # List of Monthly Change in Profits/Losses
 pnl_changes = []
 
 # File path of financial dataset
 resource_path = os.path.join("Resources", "budget_data.csv")
-
 # File path to export analysis
 output_path = os.path.join("analysis", "analysis.txt")
 
